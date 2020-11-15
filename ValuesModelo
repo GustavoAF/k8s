@@ -1,0 +1,94 @@
+# -----------------------------------------------------------------------------
+# Horizontal Pod Autoscaling
+# https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+# -----------------------------------------------------------------------------
+replicaCount: 1
+hpa:
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPU: 70
+
+# -----------------------------------------------------------------------------
+# Integração com o New Relic APM
+# newRelicIntegration: false
+# -----------------------------------------------------------------------------
+
+#------------------------------------------------------------------------------
+# Integração com o Kafka
+# kafkaIntegration: true
+#------------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# Kubernetes Probes
+# https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+# -----------------------------------------------------------------------------
+minReadySeconds: 120
+livenessProbe:
+  initialDelaySeconds: 150
+  timeoutSeconds: 5
+
+# -----------------------------------------------------------------------------
+# Kubernetes Resources
+# https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+# -----------------------------------------------------------------------------
+resources:
+  limits:
+    cpu: 300m
+    memory: 0.6Gi
+  requests:
+    cpu: 150m
+    memory: 0.6Gi
+
+# -----------------------------------------------------------------------------
+# Environment Variables
+# Variávels de ambiente que serão adicionadas ao seu serviço
+# -----------------------------------------------------------------------------
+env:
+  - name: RUN_VARIABLES
+    value: "-Xms300m -Xmx300m -XX:+UseG1GC -Duser.timezone=GMT-3 -Dfile.encoding=UTF8 \
+            -Dserver.tomcat.max-threads=600"
+
+  - name: DATA_SOURCE_USER_NAME
+    value: "/VDBVL/UAT/BDUSER-SRVC-ORQUES-SINAC"
+
+  - name: DATA_SOURCE_PASSWORD
+    value: "/VDBVL/UAT/BDPASSWORD-SRVC-ORQUES-SINAC"
+
+  - name: spring.datasource.url
+    value: "jdbc:oracle:thin:@//interrds5007.cj24dl6fn12g.sa-east-1.rds.amazonaws.com:1521/ORCL"
+
+  - name: spring.datasource.driver-class-name
+    value: "oracle.jdbc.OracleDriver"
+
+  - name: spring.datasource.hikari.connection-test-query
+    value: "SELECT 1"
+
+  - name: spring.datasource.hikari.maximum-pool-size
+    value: "10"
+
+  - name: spring.datasource.hikari.minimum-idle
+    value: "3"
+
+  - name: PREFIX_FILES_FISCAL_COSOLIDATION_NAME
+    value: "FISCAL"
+
+  - name: PATH_FILES_CONSOLIDATION
+    value: "tesouro/consolidation"
+
+  - name: BUCKET_VDB_NAME
+    value: "vdbvl-uat-liquidaarquivo"
+
+  - name: PAGE_SIZE
+    value: "10000"
+
+  - name: URL_CALLBACK_AUTOMIC
+    value: "HML-AUTOMIC-URLAPI"
+
+  - name: OBJECT_AUTOMIC_NAME
+    value: "HML-AUTOMIC-OBJECT-NAME"
+
+  - name: AUTOMIC_USER
+    value: "/VDBVL/UAT/AUTOMIC-USERNAME"
+
+  - name: AUTOMIC_PASSWORD
+    value: "/VDBVL/UAT/AUTOMIC-PASSWORD"

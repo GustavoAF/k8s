@@ -1,0 +1,57 @@
+Variáveis yaml
+
+hpa: #(Horizontal Pod Autoscaler) Grupo de variáveis referente a escalling
+  minReplicas: 4     # quqntidade minina de pods
+  maxReplicas: 4     # quantidade máxima de pods
+  targetCPU: 60      # indica o percentual que a cpu deve ser usada para providenciar o proximo scalling
+------------------------------------------------------------------------------------------------------------------------
+
+livenessProbe:  
+  initialDelaySeconds: 300          #indica quantos segundos o Kubelet vai esperar para enviar o primeiro comando de verificação #de sanidade. Pelo fato de estar em livenessProbe este referencia somente para o periodo de inicialização.
+
+  periodSeconds: 10          #O kubelet analisa o serviço a cada periodSeconds segundos. O padrão é 1. Nesse caso para o #livenessProbe.
+
+  timeoutSeconds: 5          #A análise atinge o tempo limite após timeoutSeconds segundos. O valor padrão e o mínimo é 1. Caso uma #aplicação precise de mais tempo para responder aumente esse valor.
+
+  successThreshold: 1          #A análise será bem-sucedida se obtiver êxito successThreshold vezes após uma falha. O valor padrão e #mínimo é 1. Nesse caso para o valor deve ser 1 para as análises de vivacidade.
+
+  failureThreshold: 3          #Quando um pod é iniciado e a análise falha, o Kubernetes tenta failureThreshold vezes para reiniciar #o pod antes de desistir. O valor mínimo é 1 e o valor padrão é 3
+
+readinessProbe
+  initialDelaySeconds  : 180          #indica quantos segundos o Kubelet vai esperar para enviar o primeiro comando de #verificação de sanidade. Pelo fato de estar em livenessProbe este referencia somente para o periodo de inicialização.
+
+  periodSeconds: 10          #O kubelet analisa o serviço a cada periodSeconds segundos. O padrão é 1. para o readinessProbe
+
+  timeoutSeconds: 5          #A análise atinge o tempo limite após timeoutSeconds segundos. O valor padrão e o mínimo é 1. Caso uma #aplicação precise de mais tempo para responder aumente esse valor.
+
+  successThreshold: 1        #A análise será bem-sucedida se obtiver êxito successThreshold vezes após uma falha. O valor padrão e #mínimo é 1. Nesse caso para o valor deve ser 1 para as análises de vivacidade.
+
+  failureThreshold: 3          #Quando um pod é iniciado e a análise falha, o Kubernetes tenta failureThreshold vezes para reiniciar #o pod antes de desistir. O valor mínimo é 1 e o valor padrão é 3
+
+#Para evitar os ciclos de reinicialização, configure livenessProbe.initialDelaySeconds para ser mais longo, com segurança, que a    #inicialização do serviço. Em seguida, é possível usar um valor mais curto para readinessProbe.initialDelaySeconds para rotear as   #solicitações para o serviço assim que ele estiver pronto
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+minReadySeconds: 300 - adiciona um período de latência depois que um pod é criado. Especifique um número mínimo  de segundos para que um novo pod entre no status Ready sem que nenhum contêiner apresente falhas, de modo que o pod seja considerado disponível.
+
+
+terminationGracePeriodSeconds - Quando um pod é destruído por qualquer motivo que seja, ele não o destrói de forma abrupta, primeiro envia um sinal chamado SIGTERM. O SIGTERM é um sinal gentil para o container encerrar de forma organizada antes que o Kuberntes lhe envie um sinal SIGKILL, mais abrupto. Após o sinal SIGTERM ser recebido a aplicação deve encerrar o mais rápido possível. Caso seu processo não seja encerrado após o sinal SIGTERM ele será forçado a encerrar pelo sinal SIGKILL. O Kubernetes espera um perído de 30 segundos entre o primeiro e o segundo sinal. 
+
+
+newRelicIntegration: true  - Ativa a New Relic
+
+
+Variaveis de ambiente
+- name: spring_datasource_maxActive ---Pool de conexão do spring
+    value: 20
+    
+- name: spring_datasource_minIdle   ---Pool de conexão do spring
+    value: 10
+    
+- name: spring_datasource_maxIdle   ---Pool de conexão do spring
+    value: 10
+
+
+
+
